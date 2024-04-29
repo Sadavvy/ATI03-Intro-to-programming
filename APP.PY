@@ -13,19 +13,7 @@ AUDIO_FORMAT = pyaudio.paInt16  # Audio format (16-bit integer)
 NUM_CHANNELS = 1  # Number of audio channels (mono)
 SAMPLE_RATE = 44100  # Sample rate in Hz
 
-def validate_device(device_index, audio_instance):
-    """
-    Validate the audio input device index.
-    
-    :param device_index: Index of the audio input device
-    :param audio_instance: Instance of the PyAudio class
-    :return: True if the device index is valid, False otherwise
-    """
-    info = audio_instance.get_host_api_info_by_index(0)
-    num_devices = info.get('deviceCount')
-    if device_index < 0 or device_index >= num_devices:
-        return False
-    return True
+
 
 def list_devices(audio_instance):
     """
