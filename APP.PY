@@ -8,14 +8,14 @@ import argparse
 import wave
 from tkinter import TclError
 
-SAMPLES_PER_FRAME = 1024 * 2  # Number of audio samples to process per frame
+SAMPLES_PER_FRAME = 1024 * 2  # Number of audio samples per frame
 AUDIO_FORMAT = pyaudio.paInt16  # Audio format (16-bit integer)
 NUM_CHANNELS = 1  # Number of audio channels (mono)
 SAMPLE_RATE = 44100  # Sample rate in Hz
 
 def validate_device(device_index, audio_instance):
     """
-    Validate the audio input device index to ensure it corresponds to a valid device.
+    Validate the audio input device index.
     
     :param device_index: Index of the audio input device
     :param audio_instance: Instance of the PyAudio class
@@ -23,33 +23,28 @@ def validate_device(device_index, audio_instance):
     """
     info = audio_instance.get_host_api_info_by_index(0)
     num_devices = info.get('deviceCount')
-    
-    # Check if the provided device index is within the valid range of device indices
     if device_index < 0 or device_index >= num_devices:
         return False
-    
     return True
 
 def list_devices(audio_instance):
     """
-    List the available audio input devices.
+    List available audio input devices.
     
     :param audio_instance: Instance of the PyAudio class
     """
-    info = audio_instance.get_host_API_info_by_index(0)
+    info = audio_instance.get_host_api_info_by_index(0)
     num_devices = info.get('deviceCount')
-    
-    # Iterate through the available devices and print their indices and names
     for i in range(num_devices):
         if (audio_instance.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
             print(f"Audio Input Device Index {i} - {audio_instance.get_device_info_by_host_api_device_index(0, i).get('name')}")
 
 def visualize_audio(device_index, samples_per_frame, audio_format, num_channels, sample_rate, output_file):
     """
-    Visualize the audio input in real-time using a matplotlib plot and save the audio data to a WAV file.
+    Visualize audio input in real-time using a matplotlib plot and save the audio data to a WAV file.
     
     :param device_index: Index of the audio input device
-    :param samples_per_frame: Number of audio samples to process per frame
+    :param samples_per_frame: Number of audio samples per frame
     :param audio_format: Audio format (e.g., pyaudio.paInt16)
     :param num_channels: Number of audio channels (e.g., 1 for mono)
     :param sample_rate: Sample rate in Hz
@@ -63,7 +58,7 @@ def visualize_audio(device_index, samples_per_frame, audio_format, num_channels,
     audio = pyaudio.PyAudio()
 
     try:
-        # Try to open an audio stream with the specified device index and parameters
+        # Open an audio stream
         stream = audio.open(
             input_device_index=device_index,
             format=audio_format,
@@ -74,7 +69,6 @@ def visualize_audio(device_index, samples_per_frame, audio_format, num_channels,
             frames_per_buffer=samples_per_frame
         )
     except OSError:
-        # If an OSError occurs, it likely means the provided device index is invalid
         print("Invalid index. Please choose a valid audio input device.")
         return False
 
@@ -123,12 +117,10 @@ def visualize_audio(device_index, samples_per_frame, audio_format, num_channels,
 
         # Redraw the plot
         try:
-            # Try to draw and flush the plot events
             fig.canvas.draw()
             fig.canvas.flush_events()
             frame_count += 1
         except TclError:
-            # If a TclError occurs, it likely means the user has closed the plot window
             # Calculate and print the average frame rate
             frame_rate = frame_count / (time.time() - start_time)
             print('Audio visualization and recording stopped')
@@ -157,14 +149,12 @@ def select_device():
         audio_instance.terminate()
 
         try:
-            # Try to get the user's input for the device index
             device_index = int(input("\n\nSelect a valid audio input device by index: "))
             if validate_device(device_index, pyaudio.PyAudio()):
                 return device_index
             else:
                 print("Invalid index. Please choose a valid audio input device.")
         except ValueError:
-            # If the user's input is not a valid integer, print an error message
             print("Invalid input. Please enter a valid integer index.")
 
 if __name__ == '__main__':
