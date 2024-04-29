@@ -80,8 +80,8 @@ def visualize_audio(device_index, samples_per_frame, audio_format, num_channels,
 
     # Generate x-axis values for plotting
     x_values = np.arange(0, 2 * samples_per_frame, 2)
-    # Create a line object with random data
-    line, = ax.plot(x_values, np.random.rand(samples_per_frame), '-', lw=2)
+    # Create a line object with black color
+    line, = ax.plot(x_values, np.random.rand(samples_per_frame), '-', lw=2, color='black')
 
     # Customize the plot
     ax.set_title('Real-time Audio Waveform')
