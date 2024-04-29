@@ -15,7 +15,7 @@ Command-line arguments for customization
 Interactive selection of audio input devices
 Error handling for invalid device indices
 
-Libraries Used
+ # Libraries Used
 
 PyAudio: for audio input and output
 NumPy: for data manipulation and processing
