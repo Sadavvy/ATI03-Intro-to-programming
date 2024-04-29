@@ -27,7 +27,17 @@ def validate_device(device_index, audio_instance):
         return False
     return True
 
-
+def list_devices(audio_instance):
+    """
+    List available audio input devices.
+    
+    :param audio_instance: Instance of the PyAudio class
+    """
+    info = audio_instance.get_host_api_info_by_index(0)
+    num_devices = info.get('deviceCount')
+    for i in range(num_devices):
+        if (audio_instance.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+            print(f"Audio Input Device Index {i} - {audio_instance.get_device_info_by_host_api_device_index(0, i).get('name')}")
 
 def visualize_audio(device_index, samples_per_frame, audio_format, num_channels, sample_rate, output_file):
     """
