@@ -30,7 +30,7 @@ Clone the repository or download the source code files.
 Install the required libraries by running the following command:
 Copy codepip install pyaudio numpy matplotlib wave argparse
 
-
+#
 Usage
 
 Open a terminal or command prompt and navigate to the directory containing the program files.
