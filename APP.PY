@@ -13,19 +13,21 @@ AUDIO_FORMAT = pyaudio.paInt16  # Audio format (16-bit integer)
 NUM_CHANNELS = 1  # Number of audio channels (mono)
 SAMPLE_RATE = 44100  # Sample rate in Hz
 
-
-
-def list_devices(audio_instance):
+def validate_device(device_index, audio_instance):
     """
-    List available audio input devices.
+    Validate the audio input device index.
     
+    :param device_index: Index of the audio input device
     :param audio_instance: Instance of the PyAudio class
+    :return: True if the device index is valid, False otherwise
     """
     info = audio_instance.get_host_api_info_by_index(0)
     num_devices = info.get('deviceCount')
-    for i in range(num_devices):
-        if (audio_instance.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-            print(f"Audio Input Device Index {i} - {audio_instance.get_device_info_by_host_api_device_index(0, i).get('name')}")
+    if device_index < 0 or device_index >= num_devices:
+        return False
+    return True
+
+
 
 def visualize_audio(device_index, samples_per_frame, audio_format, num_channels, sample_rate, output_file):
     """
