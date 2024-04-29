@@ -23,6 +23,8 @@ Matplotlib: for plotting the audio waveform
 Wave: for writing audio data to WAV files
 ArgParse: for command-line argument parsing
 
+
+#
 Installation
 
 Clone the repository or download the source code files.
